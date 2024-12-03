@@ -15,7 +15,6 @@ from pathlib import Path
 # Build paths inside the project like this: BASE_DIR / 'subdir'.
 BASE_DIR = Path(__file__).resolve().parent.parent
 
-
 # Quick-start development settings - unsuitable for production
 # See https://docs.djangoproject.com/en/4.1/howto/deployment/checklist/
 
@@ -24,7 +23,6 @@ SECRET_KEY = 'django-insecure-gc&cao)7mlzbre^#wg9-_$&ukl&*%y^urx(vwzkc$4mkp6fm3%
 
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = True
-
 
 # Application definition
 
@@ -78,47 +76,54 @@ WSGI_APPLICATION = 'ConectaItBackend.wsgi.application'
 AUTH_USER_MODEL = 'base.Account'
 AUTHENTICATION_BACKENDS = (
     'django.contrib.auth.backends.AllowAllUsersModelBackend',
-    'base.backends.CaseInsensitiveModelBackend'
-)
-
+    'base.backends.CaseInsensitiveModelBackend')
 
 # Database
 # https://docs.djangoproject.com/en/4.1/ref/settings/#databases
 
+# DATABASES = {
+#     'default': {
+#         'ENGINE': 'django.db.backends.mysql',  # Usa el backend MySQL para MariaDB
+#         'NAME': 'conectait',  # Nombre de la base de datos
+#         'USER': 'root',                    # Usuario de MariaDB
+#         'PASSWORD': 'root',             # Contraseña de MariaDB
+#         'HOST': '127.0.0.1',                  # Dirección del servidor (localhost o IP)
+#         'PORT': '3306',                       # Puerto de MariaDB (por defecto es 3306)
+#         'OPTIONS': {
+#             'sql_mode': 'traditional',        # (Opcional) Garantiza un comportamiento SQL estricto
+#         }
+#     }
+# }
+
 DATABASES = {
     'default': {
-        'ENGINE': 'django.db.backends.mysql',  # Usa el backend MySQL para MariaDB
-        'NAME': 'conectait',  # Nombre de la base de datos
-        'USER': 'root',                    # Usuario de MariaDB
-        'PASSWORD': 'root',             # Contraseña de MariaDB
-        'HOST': '127.0.0.1',                  # Dirección del servidor (localhost o IP)
-        'PORT': '3306',                       # Puerto de MariaDB (por defecto es 3306)
-        'OPTIONS': {
-            'sql_mode': 'traditional',        # (Opcional) Garantiza un comportamiento SQL estricto
-        }
+        'ENGINE': 'django.db.backends.sqlite3',
+        'NAME': BASE_DIR /
+        'db.sqlite3',  # BASE_DIR es una referencia al directorio base del proyecto
     }
 }
-
-
 
 # Password validation
 # https://docs.djangoproject.com/en/4.1/ref/settings/#auth-password-validators
 
 AUTH_PASSWORD_VALIDATORS = [
     {
-        'NAME': 'django.contrib.auth.password_validation.UserAttributeSimilarityValidator',
+        'NAME':
+        'django.contrib.auth.password_validation.UserAttributeSimilarityValidator',
     },
     {
-        'NAME': 'django.contrib.auth.password_validation.MinimumLengthValidator',
+        'NAME':
+        'django.contrib.auth.password_validation.MinimumLengthValidator',
     },
     {
-        'NAME': 'django.contrib.auth.password_validation.CommonPasswordValidator',
+        'NAME':
+        'django.contrib.auth.password_validation.CommonPasswordValidator',
     },
     {
-        'NAME': 'django.contrib.auth.password_validation.NumericPasswordValidator',
+        'NAME':
+        'django.contrib.auth.password_validation.NumericPasswordValidator',
     },
 ]
-
 
 # Internationalization
 # https://docs.djangoproject.com/en/4.1/topics/i18n/
@@ -130,7 +135,6 @@ TIME_ZONE = 'UTC'
 USE_I18N = True
 
 USE_TZ = True
-
 
 # Static files (CSS, JavaScript, Images)
 # https://docs.djangoproject.com/en/4.1/howto/static-files/
@@ -145,6 +149,3 @@ DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'
 ALLOWED_HOSTS = ["*"]
 CORS_ORIGIN_ALLOW_ALL = True
 CORS_ALLOW_CREDENTIALS = True
-
-
-
