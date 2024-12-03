@@ -3,9 +3,11 @@ from rest_framework.response import Response
 from rest_framework.views import APIView
 from django.contrib.auth import get_user_model
 
-from .serializers import UserSerializer,AuthTokenSerializer
+from .serializers import UserSerializer,AuthTokenSerializer, OfertaDeEmpleoSerializer
 from rest_framework.authtoken.views import ObtainAuthToken
 from rest_framework.authtoken.models import Token
+from base.models import OfertaDeEmpleo
+from rest_framework.permissions import IsAuthenticated
 
 
 class UserDetail(generics.RetrieveDestroyAPIView):
@@ -50,3 +52,42 @@ class LoginView(ObtainAuthToken):
             'date_joined': user.date_joined,
             'last_join': user.last_join
         })
+
+
+#Vistas de Empresa
+class OfertaDeEmpleoList(generics.ListCreateAPIView):
+    queryset = OfertaDeEmpleo.objects.all()
+    serializer_class = OfertaDeEmpleoSerializer
+    permission_classes = [IsAuthenticated]
+
+    def get_queryset(self):
+        """Permite filtrar ofertas por varios parámetros"""
+        queryset = OfertaDeEmpleo.objects.all()
+        
+        # Filtros opcionales
+        categoria = self.request.query_params.get('categoria', None)
+        ubicacion = self.request.query_params.get('ubicacion', None)
+        estado = self.request.query_params.get('estado', None)
+        
+        if categoria:
+            queryset = queryset.filter(categoria=categoria)
+        if ubicacion:
+            queryset = queryset.filter(ubicacion=ubicacion)
+        if estado:
+            queryset = queryset.filter(estado=estado)
+            
+        return queryset
+
+class OfertaDeEmpleoDetail(generics.RetrieveUpdateDestroyAPIView):
+    queryset = OfertaDeEmpleo.objects.all()
+    serializer_class = OfertaDeEmpleoSerializer
+    permission_classes = [IsAuthenticated]
+
+class OfertaDeEmpleoEmpresa(generics.ListAPIView):
+    serializer_class = OfertaDeEmpleoSerializer
+    permission_classes = [IsAuthenticated]
+
+    def get_queryset(self):
+        """Obtiene las ofertas de una empresa específica"""
+        empresa_id = self.kwargs['empresa_id']
+        return OfertaDeEmpleo.objects.filter(empresa_id=empresa_id)

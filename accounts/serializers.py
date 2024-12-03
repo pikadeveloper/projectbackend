@@ -1,6 +1,6 @@
 from django.contrib.auth import get_user_model, authenticate
 from rest_framework import serializers
-from base.models import Account
+from base.models import Account, OfertaDeEmpleo, Empresa
 
 class UserSerializer(serializers.ModelSerializer):
     class Meta:
@@ -33,3 +33,28 @@ class AuthTokenSerializer(serializers.Serializer):
             raise serializers.ValidationError("Credenciales de Usuario Invalidas")
         attrs['user'] = user
         return attrs
+    
+class EmpresaSerializer(serializers.ModelSerializer):
+    class Meta:
+        model = Empresa
+        fields = ['id', 'nombre', 'descripcion', 'ubicacion']
+
+class OfertaDeEmpleoSerializer(serializers.ModelSerializer):
+    empresa = EmpresaSerializer(source='empresa_id', read_only=True)  # Para obtener los detalles de la empresa
+    
+    class Meta:
+        model = OfertaDeEmpleo
+        fields = [
+            'id',
+            'empresa_id',
+            'empresa',  # Incluye los detalles de la empresa
+            'titulo_trabajo',
+            'descripcion',
+            'categoria',
+            'ubicacion',
+            'requisitos_especificos',
+            'fecha_publicacion',
+            'salario',
+            'state',
+            'estado'
+        ]
