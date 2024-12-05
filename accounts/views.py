@@ -2,6 +2,7 @@ from rest_framework import generics, status
 from rest_framework.response import Response
 from rest_framework.views import APIView
 from django.contrib.auth import get_user_model
+from django.utils.timezone import now
 
 from .serializers import UserSerializer,AuthTokenSerializer, OfertaDeEmpleoSerializer
 from rest_framework.authtoken.views import ObtainAuthToken
@@ -43,6 +44,8 @@ class LoginView(ObtainAuthToken):
         serializers.is_valid(raise_exception=True)
         user = serializers.validated_data['user']
         token,created = Token.objects.get_or_create(user=user)
+        user.last_join = now()
+        user.save()
         return Response({
             'token': token.key,
             'username': user.username,
@@ -50,12 +53,14 @@ class LoginView(ObtainAuthToken):
             'email': user.email,
             'firstname':user.firstname,
             'date_joined': user.date_joined,
-            'last_join': user.last_join
+            'last_join': user.last_join,
+            'is_employer':user.is_employer,
         })
 
 
 #Vistas de Empresa
 class OfertaDeEmpleoList(generics.ListCreateAPIView):
+
     queryset = OfertaDeEmpleo.objects.all()
     serializer_class = OfertaDeEmpleoSerializer
     permission_classes = [IsAuthenticated]
