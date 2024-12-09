@@ -5,7 +5,7 @@ from base.models import Account, OfertaDeEmpleo, Empresa
 class UserSerializer(serializers.ModelSerializer):
     class Meta:
         model = get_user_model()
-        fields =('email','password','firstname', 'date_joined', 'last_join','is_admin','is_employer')
+        fields =('email','password','firstname', 'date_joined', 'last_join','is_employer')
         extra_kwargs = {'password':{'write_only':True,'min_length':8}}
 
     def create(self, validate_data):

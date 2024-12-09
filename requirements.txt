@@ -6,6 +6,6 @@ django-extensions==3.2.3
 django-filter==22.1
 django-widget-tweaks==1.4.12
 djangorestframework==3.14.0
-#mysqlclient
+Pillow
 Markdown==3.4.1
 pymysql     
