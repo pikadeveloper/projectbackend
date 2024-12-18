@@ -6,7 +6,11 @@ class UserSerializer(serializers.ModelSerializer):
     class Meta:
         model = get_user_model()
         fields =('email','password','firstname', 'date_joined', 'last_join','is_employer')
-        extra_kwargs = {'password':{'write_only':True,'min_length':8}}
+        extra_kwargs = {
+            'password': {'write_only': True, 'min_length': 8},
+            'date_joined': {'read_only': True},
+            'last_join': {'read_only': True}
+        }
 
     def create(self, validate_data):
         user = Account(**validate_data)
@@ -37,17 +41,35 @@ class AuthTokenSerializer(serializers.Serializer):
 class EmpresaSerializer(serializers.ModelSerializer):
     class Meta:
         model = Empresa
-        fields = ['id', 'nombre', 'descripcion', 'ubicacion']
+        fields = [
+            'id', 'empresa', 'nombre', 'descripcion', 'ubicacion',
+            'rut', 'razon_social', 'giro', 'sitio_web', 'telefono',
+            'email_contacto', 'direccion_comercial', 'fecha_registro',
+            'logo', 'is_active'
+        ]
+        read_only_fields = ['fecha_registro', 'empresa']
+        
+    def create(self, validated_data):
+        request = self.context.get('request')
+        user = request.user if request and hasattr(request, 'user') else None
+
+        if not user or not user.is_authenticated:
+            raise serializers.ValidationError("No se ha podido determinar el usuario o no está autenticado.")
+
+        if not user.is_employer:
+            raise serializers.ValidationError("El usuario no tiene permisos para crear una empresa.")
+
+        empresa = Empresa.objects.create(empresa=user, **validated_data)
+        return empresa
 
 class OfertaDeEmpleoSerializer(serializers.ModelSerializer):
-    empresa = EmpresaSerializer(source='empresa_id', read_only=True)  # Para obtener los detalles de la empresa
-    
+    empresa = EmpresaSerializer(read_only=True)
+
     class Meta:
         model = OfertaDeEmpleo
         fields = [
             'id',
-            'empresa_id',
-            'empresa',  # Incluye los detalles de la empresa
+            'empresa',  # detalle de la empresa
             'titulo_trabajo',
             'descripcion',
             'categoria',
@@ -55,6 +77,7 @@ class OfertaDeEmpleoSerializer(serializers.ModelSerializer):
             'requisitos_especificos',
             'fecha_publicacion',
             'salario',
-            'state',
             'estado'
         ]
+        read_only_fields = ['fecha_publicacion']
+        
