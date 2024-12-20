@@ -101,7 +101,7 @@ DATABASES = {
         'NAME': 'conectait',  # Nombre de la base de datos
         'USER': 'admin',                    # Usuario de MariaDB
         'PASSWORD': 'Legocity1',             # Contraseña de MariaDB
-        'HOST': 'conectait.cluster-cy6b4bsibued.us-east-1.rds.amazonaws.com',                  # Dirección del servidor (localhost o IP)
+        'HOST': 'conectait-instance-1.cy6b4bsibued.us-east-1.rds.amazonaws.com',                  # Dirección del servidor (localhost o IP)
         'PORT': '3306',                       # Puerto de MariaDB (por defecto es 3306)
         'OPTIONS': {
             'sql_mode': 'traditional',        # (Opcional) Garantiza un comportamiento SQL estricto
