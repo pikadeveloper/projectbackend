@@ -95,28 +95,28 @@ AUTHENTICATION_BACKENDS = (
 #     }
 # }
 
-DATABASES = {
-    'default': {
-        'ENGINE': 'django.db.backends.mysql',  # Usa el backend MySQL para MariaDB
-        'NAME': 'conectait',  # Nombre de la base de datos
-        'USER': 'admin',                    # Usuario de MariaDB
-        'PASSWORD': 'Legocity1',             # Contraseña de MariaDB
-        'HOST': 'conectait-instance-1.cy6b4bsibued.us-east-1.rds.amazonaws.com',                  # Dirección del servidor (localhost o IP)
-        'PORT': '3306',                       # Puerto de MariaDB (por defecto es 3306)
-        'OPTIONS': {
-            'sql_mode': 'traditional',        # (Opcional) Garantiza un comportamiento SQL estricto
-        }
-    }
-}
-
-
 # DATABASES = {
 #     'default': {
-#         'ENGINE': 'django.db.backends.sqlite3',
-#         'NAME': BASE_DIR /
-#         'db.sqlite3',  # BASE_DIR es una referencia al directorio base del proyecto
+#         'ENGINE': 'django.db.backends.mysql',  # Usa el backend MySQL para MariaDB
+#         'NAME': 'conectait',  # Nombre de la base de datos
+#         'USER': 'admin',                    # Usuario de MariaDB
+#         'PASSWORD': 'Legocity1',             # Contraseña de MariaDB
+#         'HOST': 'conectait-instance-1.cy6b4bsibued.us-east-1.rds.amazonaws.com',                  # Dirección del servidor (localhost o IP)
+#         'PORT': '3306',                       # Puerto de MariaDB (por defecto es 3306)
+#         'OPTIONS': {
+#             'sql_mode': 'traditional',        # (Opcional) Garantiza un comportamiento SQL estricto
+#         }
 #     }
 # }
+
+
+DATABASES = {
+    'default': {
+        'ENGINE': 'django.db.backends.sqlite3',
+        'NAME': BASE_DIR /
+        'db.sqlite3',  # BASE_DIR es una referencia al directorio base del proyecto
+    }
+}
 
 # Password validation
 # https://docs.djangoproject.com/en/4.1/ref/settings/#auth-password-validators
